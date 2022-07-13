@@ -1,1 +1,1 @@
-javaScript详细版
+javaScript工具库
