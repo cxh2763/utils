@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="input">
+    <script>
+        // function throttle(fn,wait){
+        //     let timer = null;
+        //     return (...arg)=>{
+        //         if(!timer){
+        //             timer = setTimeout(() => {
+        //                 fn(...arg);
+        //                 timer = null
+        //             }, wait);
+        //         }
+        //     }
+        // }
+
+        function debonce(fn, wait) { //等待一定时间没有执行再执行
+            let timer = null;
+            return (...arg) => {
+                if (timer) {
+                    clearTimeout(timer);
+                }
+                timer = setTimeout(() => {
+                    fn(...arg)
+                }, wait);
+            }
+        }
+
+        function throttle(fn, wait) { //每隔一段时间执行一次
+            let timer = null;
+            return (...arg) => {
+                if (!timer) { //如果不存在计数器则开启一个，如果存在则什么也不做
+                    timer = setTimeout(() => {
+                        fn(...arg)
+                        timer = null; //每次执行函数后，清楚计时器
+                    }, wait)
+                }
+            }
+        }
+
+
+        function curry() {
+            let fn = arguments[0];//获取需要执行的函数
+            let args = [].slice.call(arguments, 1);//获取传递的参数。构成一个数组
+            if (args.length === fn.length) {
+                //fn.length 函数fn的参数个数
+                return fn(...args)
+            }
+            //如果参数不够就返回一个函数
+            function _curry() {
+                args.push(...arguments);//把新接收到的参数推入到参数数组中去
+                if (args.length === fn.length) {
+                    //fn.length 函数fn的参数个数
+                    return fn(...args)
+                }
+                return _curry;
+            }
+            return _curry;
+        }
+
+        function Add(a, b, c) {
+            return a + b + c;
+        }
+
+        // console.log(curry(Add, 1, 2, 3))
+
+        const input = document.querySelector("#input");
+        input.oninput = throttle((e) => {
+            console.log(e.target.value, e)
+        }, 1000)
+
+        //实现一个 *add* 方法，使计算结果能够满足如下预期
+        //add(1)(2)(3) = 6;
+        //add(1, 2, 3)(4) = 10;
+        //add(1)(2)(3)(4)(5) = 15;
+        function add() {
+            let args = [].slice.call(arguments) //收集参数，保存成数组
+            let _add = function () {
+                //定义一个函数专门用来继续收集参数
+                if (arguments.length === 0) {
+                    //没有参数了
+                    let result = args.reduce((pre, cur) => {
+                        return pre + cur
+                    }, 0)
+                    return result
+                }
+                //否则继续收集参数
+                args.push(...arguments);
+                return _add
+            }
+            return _add;
+        }
+        console.log(add(1)(2)(3)(4)(5)())
+    </script>
+</body>
+
+</html>

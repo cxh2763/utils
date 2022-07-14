@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    let inherit = (function () {//继承就是让子构造函数的prototype指向父构造函数的prototype
+      let F = function () { }
+      return function (Target, Origin) {
+        F.prototype = Origin.prototype;
+        Target.prototype = new F();
+        Target.prototype.constructor = Target;
+        Target.prototype.uber = Origin.prototype; //保存他继承与那个对象
+      }
+    }())
+
+    function animal() {
+
+    }
+
+    animal.prototype.print = function () {
+      console.log("我是父亲原型上的方法")
+    }
+
+    function Dog() {
+
+    }
+
+    inherit(Dog, animal)
+
+    let dog = new Dog()
+
+    console.log(dog)
+  </script>
+</body>
+<style>
+</style>
+
+</html>
