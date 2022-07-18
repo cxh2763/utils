@@ -1,6 +1,8 @@
 function Person(name, age) {
   this.name = name;
   this.age = age;
+  console.log(this)
+  return this;
 }
 
 Person.prototype.print = function () {
@@ -19,7 +21,7 @@ Person.prototype.print = function () {
 function myNew(fn, ...args) {
   const obj = new Object();
   obj.__proto__ = fn.prototype;
-  const result = fn.call(obj, ...args);
+  const result = fn.call(obj, ...args);//把this指向了空对象
   return result instanceof Object ? result : obj;
 }
 
