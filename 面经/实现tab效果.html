@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .tabNav {
+      width: 600px;
+      height: 300px;
+      background: #E1FFFF;
+      border: 1px solid #556B2F
+    }
+
+    #tab_menu {
+      height: 40px;
+      background: #98FB98;
+    }
+
+    #tab_menu ul li {
+      float: left;
+      padding: 0 20px;
+      height: 40px;
+      line-height: 40px;
+      border-right: 1px solid #000;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    #tab_menu ul li:last-child {
+      border-right: none;
+    }
+
+    #tab_menu ul li.licurrent {
+      background: #000000;
+      color: #FFF;
+    }
+
+    .tab_item {
+      width: 500px;
+      display: none;
+    }
+
+    .current {
+      display: block;
+      background: #F0E68C;
+      padding: 50px;
+      height: 160px;
+    }
+  </style>
+</head>
+
+<div id="content">
+  <div class="tabNav">
+    <div id="tab_menu">
+      <ul>
+        <li class="licurrent">朝代故事</li>
+        <li>地域典故</li>
+        <li>茶话人生</li>
+      </ul>
+    </div>
+    <div id="tab_con">
+      <div class="tab_item current">朝代故事朝代故事</div>
+      <div class="tab_item">
+        雁门关，与宁武关、偏关合称为“外三关”。
+      </div>
+      <div class="tab_item">茶话人生茶话人生</div>
+    </div>
+  </div>
+</div>
+
+<body>
+  <script>
+    //获取元素集合
+    var lis = document.querySelectorAll('li');
+    var items = document.querySelectorAll('.tab_item');
+
+    //为每个li添加点击事件
+    for (var i = 0; i < lis.length; i++) {
+      lis[i].setAttribute('idx', i);
+      //lis[i].index = i;//也可以这样为当前的li添加index属性
+
+      lis[i].onclick = function () {
+        /*点击时：
+          li元素--1、全部删除：选中时样式 。全部删除需要再次循环，
+            2、当前元素添加：选中时样式
+           div.item--3、当前li元素对应的div显示。其他隐藏
+        */
+        for (j = 0; j < lis.length; j++) {//先循环重置其他的标签样式
+          lis[j].className = '';
+
+          items[j].className = 'tab_item'
+        }
+
+        this.className = "licurrent";
+        var idx = this.getAttribute("idx");
+        console.log(this)
+        items[idx].className = 'current';
+        //items[this.index].className = 'current';
+      }
+    }
+  </script>
+</body>
+
+</html>
