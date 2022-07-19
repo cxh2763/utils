@@ -10,20 +10,30 @@
 
 <body>
   <script>
-    (function (window) {
+    let obj = {
+      name: "yj"
+    }
+    let obj3 = { 'a': 1 }
+    const set1 = new WeakSet();
+    set1.add(obj);
+    set1.add(obj3)
 
-      function fn(str) {
-        this.str = str;
-      }
-      fn.prototype.format = function () {
-        var arg = arguments;
-        console.log(arg)
-        return this.str.replace(/{(\d)}/g, function (a, b) {
-          return arg[b] || "";
-        })
-      }
-      window.fn = fn;
-    })(window);
+    obj = null;
+    // obj3 = null;
+    console.log(set1, obj, obj3)
+      (function (window) {
+
+        function fn(str) {
+          this.str = str;
+        }
+        fn.prototype.format = function () {
+          var arg = arguments;
+          return this.str.replace(/{(\d)}/g, function (a, b) {
+            return arg[b] || "";
+          })
+        }
+        window.fn = fn;
+      })(window);
 
     (function () {
       var t = new fn("<p><a href='{0}'>{1}<span>{2}</span></a></p>")
