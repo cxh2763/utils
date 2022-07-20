@@ -9,16 +9,17 @@
 </head>
 
 <body>
+  <script src="./utils/deepclone.js"></script>
   <script src="/面经/ajax.js"></script>
   <script id='1'>
-    const myAjax = new Ajax({
-      method: 'GET',
-      url: 'https://open.duyiedu.com/api/meituan/header/search.json?appkey=276314445_1590670332060',
-      data: {},
-      success: function (data) {
-        console.log(JSON.parse(data).data.list)
-      }
-    })
+    // const myAjax = new Ajax({
+    //   method: 'GET',
+    //   url: 'https://open.duyiedu.com/api/meituan/header/search.json?appkey=276314445_1590670332060',
+    //   data: {},
+    //   success: function (data) {
+    //     console.log(JSON.parse(data).data.list)
+    //   }
+    // })
     // let obj = {
     //   name: "yj"
     // }
@@ -80,6 +81,7 @@
     // }
     // console.log(unique(arr))
   </script>
+  <!-- <script src="./面经/MySetInterval.js"></script> -->
   <!-- <script src="./utils/generator.js"></script>
   <script src="./utils/set&map.js"></script> -->
 </body>
