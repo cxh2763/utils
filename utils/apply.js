@@ -18,6 +18,17 @@ Function.prototype.MyApply = function (obj, arguements) {
     return result;
 }
 
+Function.prototype.MyApply2 = function (obj, arguements) {
+    obj = (obj === undefined || obj === null) ? globalThis : Object(obj);
+    const key = Symbol('key');
+    Object.defineProperty(obj, key, {
+        value: this,
+        enumerable: false,
+    })
+    const result = obj[key](...arguements)
+    return result;
+}
+
 Function.prototype.MyCall = function (obj, ...args) {
     const _this = obj || window;
     _this.fn = this; //默认的this是指向被调用的func的
@@ -36,6 +47,6 @@ Function.prototype.Mybind = function (obj, args) {
 }
 
 console.log(person.fullName());
-console.log(person.fullName.MyApply(person1, [18, 1000]))
+console.log(person.fullName.MyApply2(person1, [18, 1000]))
 console.log(person.fullName.MyCall(person1, 18, 1000))
 console.log(person.fullName.Mybind(person1, [18, 1000])())
