@@ -24,8 +24,11 @@ Function.prototype.MyApply2 = function (obj, arguements) {
     Object.defineProperty(obj, key, {
         value: this,
         enumerable: false,
+        configurable: true,
     })
+    // obj[key] = this;
     const result = obj[key](...arguements)
+    delete obj[key];
     return result;
 }
 
@@ -46,7 +49,9 @@ Function.prototype.Mybind = function (obj, args) {
     return result;
 }
 
-console.log(person.fullName());
+// console.log(person.fullName());
 console.log(person.fullName.MyApply2(person1, [18, 1000]))
-console.log(person.fullName.MyCall(person1, 18, 1000))
-console.log(person.fullName.Mybind(person1, [18, 1000])())
+console.log(person1)
+console.log(Object.getOwnPropertySymbols(person1))
+// console.log(person.fullName.MyCall(person1, 18, 1000))
+// console.log(person.fullName.Mybind(person1, [18, 1000])())

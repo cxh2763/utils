@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const obj1 = {
+      aa: function () {
+
+      }
+    }
+    console.log(JSON.stringify(obj1)) //属性值是函数则不好用了
+
+    const key = Symbol('key');
+    console.log(key)
+    function Obj() {
+      this.bb = 2;
+      this[key] = 3
+    }
+    Obj.prototype.print = function () {
+      console.log('hello')
+    }
+    const obj2 = new Obj;
+    obj2.cc = function cc() {
+
+    }
+    Object.defineProperty(obj2, 'aa', {
+      value: 1,
+      enumerable: false,
+    })
+    console.log(obj2)
+    console.log(Object.keys(obj2))//这个时候就不好用了 找不到aa 也找不到Symbol,不会查找原型
+    for (const item in obj2) {
+      console.log(item)//找不到aa 和 Symbol  还会遍历原型上的属性
+    }
+    console.log(Object.getOwnPropertyNames(obj2)) //可以拿到不可以枚举的，但是拿不到Symbol
+    console.log(JSON.stringify(obj2)) //拿不到  函数 Symbol 不可枚举
+    console.log(Object.getOwnPropertySymbols(obj2)) //可以拿到Symbol
+  </script>
+</body>
+
+</html>
