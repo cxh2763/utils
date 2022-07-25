@@ -1,5 +1,7 @@
 # Vue
 
+### VueRouter
+
 说一下HashRouter和HistoryRouter的区别和原理？
 
 区别：
@@ -16,4 +18,48 @@
 
 需要兼容低版本的浏览器时，建议使用hash模式。
 需要添加任意类型数据到记录时，可以使用history模式。 
+
+### Vue组件通讯
+
+#### 父子组件的通讯
+
+prop  event  
+
+style和class（父组件可以向子组件传递`style`和`class`，它们会合并到子组件的根元素中）
+
+如果父组件传递了一些属性到子组件，但子组件并没有声明这些属性，则它们称之为`attribute`，这些属性会直接附着在子组件的根元素上
+
+native （在注册事件时，父组件可以使用`native`修饰符，将事件注册到子组件的根元素上）
+
+$listeners  （子组件可以通过`$listeners`获取父组件传递过来的所有事件处理函数）
+
+v-model
+
+sync
+
+$parent和$children
+
+在组件内部，可以通过`$parent`和`$children`属性，分别得到当前组件的父组件和子组件实例
+
+$slots和$scopedSlots
+
+$ref
+
+#### 跨组件通信
+
+Provide和Inject
+
+Router
+
+Vuex
+
+store模式（自己定义一个store.js）
+
+事件总线 eventbus
+
+### 虚拟dom
+
+虚拟dom本质上就是一个普通的JS对象，用于描述视图的界面结构
+
+在vue中，每个组件都有一个`render`函数，每个`render`函数都会返回一个虚拟dom树，这也就意味着每个组件都对应一棵虚拟DOM树
 
