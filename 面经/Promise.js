@@ -81,7 +81,6 @@ Promise.all = function (proms) {
   })
 }
 
-
 // const pro1 = new Promise((resolve) => {
 //   resolve(123);
 // })
@@ -105,3 +104,28 @@ Promise.all = function (proms) {
 // setTimeout(() => {
 //   console.log(pro, pro2)
 // }, 50);
+
+let pro1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject(1)
+  })
+})
+let pro2 = new Promise((resolve) => {
+  resolve(2)
+})
+let pro3 = new Promise((resolve, reject) => {
+  resolve(3)
+})
+let pro4 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(4)
+  }, 50);
+})
+
+let proall = Promise.all([pro1, pro2, pro3, pro4]);
+
+proall.then((data) => {
+  console.log(data)
+}, (err) => {
+  console.log("err", err)
+})
