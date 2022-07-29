@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <p>this is a test</p>
+    {{msg}} <input type="text" v-model="msg">{{msg}}
+  </div>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        msg: "123",
+      }
+    })
+    function Vue(options) {
+      //this代表Vue的实例对象，本例中就是vm
+      //options.data这就是实际的数据 {msg：'xuehao''}
+      //observer(this, options.data);
+      this.$el = options.el;
+      compile(this);
+    }
+
+    //新建发布者构造函数
+    function Dep() {
+      // 将观察者添加到发布者内部的数组里面
+      // 这样以便于通知所有的观察者去更新数组
+      this.subs = []
+    }
+    Dep.prototype = {
+      //将watcher添加到发布者内置的数组里面
+      addSub: function (sub) {
+        this.subs.push(sub);
+      },
+      //遍历数组里面所有的watcher，通知它们去更新数据
+      notify: function () {
+        this.subs.forEach(function (sub) {
+          sub.update();
+        })
+      }
+    }
+    //新建观察者Watcher构造函数
+    //接收三个参数：Vue实例，文本节点，以及捕获内容 msg
+    function Watcher(vm, child, vmKey) {
+      this.vm = vm;
+      this.child = child;
+      this.vmKey = vmKey;
+      Dep.target = this; //将该观察者实例对象添加给Dep.target
+      console.log(this)
+      Dep.target = null;
+    }
+    Watcher.prototype.update = () => {
+      // 相当于：{{ msg }}.nodeValue = this.vm['msg']
+      // 这样就更新了文本节点的值，由于这里在获取 vm.msg，所以会触发 getter
+      this.child.nodeValue = this.vm[this.vmKey];
+    }
+
+    //该函数的作用是用于数据帧听
+    function observer(vm, obj) {
+      const dep = new Dep(); //新增一个发布者
+      for (const key in obj) {
+        Object.defineProperty(vm, key, {
+          get() {
+            console.log("get触发了")
+            if (Dep.target) {
+              dep.addSub(Dep.target);//往发布者的数组里面添加订阅者
+            }
+          },
+          set(newval) {
+            console.log('触发了set')
+            obj[key] = newval;
+            dep.notify(); //发布者发出消息，通知订阅者修改数据
+          }
+        })
+      }
+    }
+
+    //用于对模板信息提取，主要提取{{}}和v-model，然后进行一些操作
+    //{{}}会成为观察者，v-model所对应的控件来绑定事件
+    function compile(vm) {
+      const el = document.querySelector(vm.$el);//选择对应的dom <div id="app">...</div>
+      const documentFragment = document.createDocumentFragment();//创建了一个空的文档碎片
+      const reg = /\{\{(.*)\}\}/; //创建正则表达式 匹配{{}}
+      while (el.childNodes[0]) {
+        const child = el.childNodes[0]; //将第一个子节点存储到child
+        if (child.nodeType === 1) {
+          //如果能进入此if，说明该节点是一个元素节点
+          for (const key in child.attributes) {
+            //遍历元素节点的每一个属性，拿到的就是type = "text" v-model = "msg"
+            const attrName = child.attributes[key].nodeName;//获取属性名
+            if (attrName === 'v-model') {
+              const vmKey = child.attributes[key].nodeValue;//先获取属性值，也就是msg
+              //为该节点，也就是 <input type="text" v-model="msg"> 绑定一个 input 事件
+              child.addEventListener('input', (e) => {
+                vm[vmKey] = e.target.value;
+                //获取用户输入的值，然后改变vm里面的msg属性对应的值，会触发setter
+              })
+            }
+          }
+        }
+        if (child.nodeType === 3) {
+          // 如果能进入此if，说明该节点是一个文本节点
+          if (reg.test(child.nodeValue)) {
+            //如果能够进入到此if，说明{{}}，然后我们要让其成为订阅者
+            const vmKey = RegExp.$1; //获取正则里面的值，也就是msg
+            //实例化一个订阅者
+            new Watcher(vm, child, vmKey)
+          }
+        }
+        documentFragment.appendChild(el.childNodes[0]); // 将第一个子节点添加到文档碎片里面
+      }
+      el.appendChild(documentFragment);
+    }
+  </script>
+</body>
+
+</html>
