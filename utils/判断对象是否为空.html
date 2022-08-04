@@ -42,6 +42,7 @@
     console.log(Object.getOwnPropertyNames(obj2)) //可以拿到不可以枚举的，但是拿不到Symbol
     console.log(JSON.stringify(obj2)) //拿不到  函数 Symbol 不可枚举
     console.log(Object.getOwnPropertySymbols(obj2)) //可以拿到Symbol
+    console.log('aa' in obj2, key in obj2, 'toString' in obj2, 'cc' in obj2);//判断一个值是否是对象的键值,会查找原型
   </script>
 </body>
 
