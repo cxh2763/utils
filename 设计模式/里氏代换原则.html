@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function Rectangle() {
+      this.width = 0;
+      this.height = 0;
+      this.setWidth = function (width) {
+        this.width = width;
+      }
+      this.setHeight = function (height) {
+        this.height = height;
+      }
+      this.getWidth = function () {
+        return this.width;
+      }
+      this.getHeight = function () {
+        return this.height;
+      }
+    }
+
+    Square.prototype = new Rectangle();
+
+  </script>
+</body>
+
+</html>

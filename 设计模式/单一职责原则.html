@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul>
+
+  </ul>
+  <script>
+    // function View(url, data, dom) {
+    //   if (localStorage.getItem('list')) {
+    //     //.....
+    //   }
+    //   //获取数据和渲染数据的功能写到一起了
+    //   $.ajax({
+    //     url: url,
+    //     data: data,
+    //     success: function (json) {
+    //       var arr = JSON.parse(json);
+    //       // 缓存数据
+    //       localStorage.setItem('list', json)
+    //       var htmlStr = '';
+    //       arr.forEach(element => {
+    //         htmlStr += '<li>' + element.name + '<li>'
+    //       });
+    //       dom.innerHtml = htmlStr;
+    //     }
+    //   })
+    // }
+    // View('xxx', 'page = 1', ul)
+
+    //单一模式
+    function GetData(callBackArr) {
+      //获取数据
+      this.getDate = function (url, params) {
+        $.ajax({
+          url: url,
+          data: data,
+          success: function (json) {
+            callBackArr.forEach((item, index) => {
+              item.do(json)
+            })
+          }
+        })
+      }
+    }
+
+    var oG = new GetData([oR, oC])
+
+    function Render(dom) {
+      //渲染数据
+      this.do = function (data) {
+        var arr = JSON.parse(json);
+        var htmlStr = '';
+        arr.forEach(element => {
+          htmlStr += '<li>' + element.name + '<li>'
+        });
+        dom.innerHtml = htmlStr;
+      }
+    }
+    var oR = new Render(dom);
+
+    function CacheDate(type) {
+      //缓存数据
+      this.do = function (data) {
+        localStorage.setItem(type, data)
+      }
+    }
+    var oC = new CacheDate();
+  </script>
+</body>
+
+</html>
