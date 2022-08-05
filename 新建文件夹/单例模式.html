@@ -11,39 +11,49 @@
 <body>
   <button id="oBtn">按钮</button>
   <script>
-    //创建弹窗
-    // var CreateAlert = function (text) {
-    //   var oDiv = document.createElement('div');
-    //   oDiv.style.display = 'none';
-    //   oDiv.innerText = text;
-    //   document.body.appendChild(oDiv);
-    //   return oDiv;
-    // }
-
-    // oBtn.onclick = function () {
-    //   var oDiv = CreateAlert('hello world'); //每次创建的对象不一样，消费性能
-    //   oDiv.style.display = 'block';
-    // }
-
-    var CreateAlert = (function () {
-      var oDiv = null;
-      return function (text) {
-        if (typeof oDiv === 'object' && oDiv) {
-          return oDiv;
+    //单例模式
+    var getSingle = function (func) {
+      var result;
+      return function () {
+        if (!result) {
+          result = func.apply(this, arguments);
         }
-        oDiv = document.createElement('div');
-        oDiv.style.display = 'none';
-        oDiv.innerText = text;
-        document.body.appendChild(oDiv)
-        return oDiv;
+        return result;
       }
-    })()
+    }
+    //创建弹窗
+    var CreateAlert = function (text) {
+      var oDiv = document.createElement('div');
+      oDiv.style.display = 'none';
+      oDiv.innerText = text;
+      document.body.appendChild(oDiv);
+      return oDiv;
+    }
 
+    var SingleAlert = getSingle(CreateAlert);
     oBtn.onclick = function () {
-      var oDiv = CreateAlert('hello world'); //每次创建的对象都一样，节约性能
+      var oDiv = SingleAlert('hello world');
       oDiv.style.display = 'block';
     }
 
+    // var CreateAlert = (function () {
+    //   var oDiv = null;
+    //   return function (text) {
+    //     if (typeof oDiv === 'object' && oDiv) {
+    //       return oDiv;
+    //     }
+    //     oDiv = document.createElement('div');
+    //     oDiv.style.display = 'none';
+    //     oDiv.innerText = text;
+    //     document.body.appendChild(oDiv)
+    //     return oDiv;
+    //   }
+    // })()
+
+    // oBtn.onclick = function () {
+    //   var oDiv = CreateAlert('hello world'); //每次创建的对象都一样，节约性能
+    //   oDiv.style.display = 'block';
+    // }
     // function Test(name) {
     //   if (typeof Test.instance === 'object') {
     //     return Test.instance;

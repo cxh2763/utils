@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    var mrDeng = {
+      sendFlower: function (target = {}) {
+        var Flower = 'sunflower';
+        target.receiveFlower && target.receiveFlower(Flower)
+      }
+    }
+
+    // goddess
+    var goddess = {
+      mood: null,
+      receiveFlower: function (flower) {
+        //true good false bad
+        this.mood ? console.log('ok') : console.log('get out');
+      },
+      changeMood: function () {
+        this.mood = Math.random() > 0.5;
+      },
+      createMood: function () {
+        var self = this;
+        self.changeMood();
+        setInterval(function () {
+          self.changeMood();
+        }, 400);
+      }
+    }
+
+    goddess.createMood();
+
+    mrDeng.sendFlower(goddess)
+
+  </script>
+</body>
+
+</html>
