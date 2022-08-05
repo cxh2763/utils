@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="oBtn">按钮</button>
+  <script>
+    //创建弹窗
+    // var CreateAlert = function (text) {
+    //   var oDiv = document.createElement('div');
+    //   oDiv.style.display = 'none';
+    //   oDiv.innerText = text;
+    //   document.body.appendChild(oDiv);
+    //   return oDiv;
+    // }
+
+    // oBtn.onclick = function () {
+    //   var oDiv = CreateAlert('hello world'); //每次创建的对象不一样，消费性能
+    //   oDiv.style.display = 'block';
+    // }
+
+    var CreateAlert = (function () {
+      var oDiv = null;
+      return function (text) {
+        if (typeof oDiv === 'object' && oDiv) {
+          return oDiv;
+        }
+        oDiv = document.createElement('div');
+        oDiv.style.display = 'none';
+        oDiv.innerText = text;
+        document.body.appendChild(oDiv)
+        return oDiv;
+      }
+    })()
+
+    oBtn.onclick = function () {
+      var oDiv = CreateAlert('hello world'); //每次创建的对象都一样，节约性能
+      oDiv.style.display = 'block';
+    }
+
+    // function Test(name) {
+    //   if (typeof Test.instance === 'object') {
+    //     return Test.instance;
+    //   }
+    //   this.name = name;
+    //   Test.instance = this;
+    // }
+    // var a = new Test('one')
+    // var b = new Test();
+    // console.log(a === b);
+
+    // function Test(name) {
+    //   var instance = this;
+    //   this.name = name;
+    //   Test = function () {
+    //     return instance;
+    //   }
+    // }
+
+    // var a = new Test('one')
+    // var b = new Test();
+    // var c = new Test();
+
+    // console.log(a === b, b === c);
+
+    //圣杯(闭包)
+    // var Test = (function () {
+    //   var instance;
+    //   return function (name) {
+    //     if (typeof instance === "object") {
+    //       return instance;
+    //     }
+    //     instance = this;
+    //     this.name = name;
+    //   }
+    // })()
+
+    // var a = new Test('chen');
+    // Test.prototype.lastName = 'deng';
+    // var b = new Test();
+    // console.log(a === b, a.lastName, b)
+
+  </script>
+</body>
+
+</html>
