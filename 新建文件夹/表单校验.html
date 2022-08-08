@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  用户名：<input type="text">
+  密码：<input type="text">
+  <button>提交</button>
+  <script>
+    /**
+     * 代理模式和策略模式结合
+    */
+    // A = C = B
+    function Request() {
+
+    }
+
+    //构造函数 => 对象实例
+    function Validator() {
+
+    }
+
+    Validator.prototype.strategies = {
+      isNoEmpty: function (value, errorMsg) {
+
+      },
+      maxLength: function (value, length, errorMsg) {
+
+      },
+      minLength: function (value, length, errorMsg) {
+
+      }
+    }
+    validator = new Validator();
+    // add 添加校验规则 (dom,showDom，[{strategy:isNoEmpty,
+    // errorMsg:'用户名不为空'},{}])
+    // start 开始校验并返回真正的校验结果
+    // extend 可以扩展算法 {isMail:function(){}}
+
+
+
+    var ProxyRequest = (function () {
+      //1.校验内容dom 2.错误信息显示dom 3.检测规则
+      validator.add()
+      return function () {
+        Request();
+      }
+    })()
+  </script>
+</body>
+
+</html>

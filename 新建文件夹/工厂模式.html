@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //原始模式
+    // var smallPlane = {
+    //   width: 100,
+    //   height: 100,
+    //   blood: 100,
+    //   touch: function () {
+    //     this.blood -= 20;
+    //     if (this.blood === 0) {
+    //       console.log('die')
+    //     }
+    //   }
+    // }
+
+    // // 构造函数
+    // function smallPlane() {
+    //   this.width = 100;
+    //   this.height = 100;
+    //   this.name = 'smallPlane';
+    //   this.blood = 100;
+    //   this.touch = function () {
+    //     this.blood -= 20;
+    //     if (this.blood === 0) {
+    //       console.log('die')
+    //     }
+    //   }
+    // }
+
+    // function BigPlane() {
+    //   this.width = 100;
+    //   this.height = 100;
+    //   this.name = 'smallPlane';
+    //   this.blood = 100;
+    //   this.touch = function () {
+    //     this.blood -= 20;
+    //     if (this.blood === 0) {
+    //       console.log('die')
+    //     }
+    //   }
+    // }
+
+    // function AttackPlane() {
+
+    // }
+
+    // //工厂模式
+    // function PlaneFactory(type) {
+    //   var newPlane = null;
+    //   switch (type) {
+    //     case 'smallPlane':
+    //       newPlane = new smallPlane();
+    //       break;
+    //     case 'BigPlane':
+    //       newPlane = new BigPlane();
+    //       break;
+    //   }
+    //   //耦合度换复杂度
+    //   newPlane.die = function () {
+    //     console.log('boom');
+    //   }
+    // }
+
+    //工厂方法模式
+    function PlaneFactory() {
+
+    }
+
+    // 子类工厂都可以使用的公共方法
+    PlaneFactory.prototype.touch = function () {
+      this.blood -= 50;
+      if (this.blood === 0) {
+        console.log('die')
+      }
+    }
+    //创建对象的接口
+    PlaneFactory.create = function (type) {
+      //判断一下是否存在该类工厂
+      if (PlaneFactory.prototype[type] === undefined) {
+        throw 'no this constructor';
+      }
+    }
+
+    //真正定义子类工厂
+    PlaneFactory.prototype.SmallPlane = function () {
+      this.width = 100;
+      this.height = 100;
+      this.name = 'smallPlane';
+      this.blood = 100;
+      this.touch = function () {
+        this.blood -= 20;
+        if (this.blood === 0) {
+          console.log('die')
+        }
+      }
+    }
+
+    PlaneFactory.prototype.BigPlane = function () {
+      this.width = 150;
+      this.height = 200;
+      this.name = 'BigPlane';
+      this.blood = 200;
+      this.touch = function () {
+        this.blood -= 20;
+        if (this.blood === 0) {
+          console.log('die')
+        }
+      }
+    }
+
+  </script>
+</body>
+
+</html>

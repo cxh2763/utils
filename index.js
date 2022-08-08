@@ -1,1 +1,2 @@
-console.log(require)
+(function a() { })
+console.log(a)

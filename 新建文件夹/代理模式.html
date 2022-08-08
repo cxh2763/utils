@@ -9,36 +9,107 @@
 </head>
 
 <body>
+  <div id="show">
+    show
+  </div>
+  <button type="bg">add greenBg</button>
+  <button type="cl">add blueColor</button>
+  <button type="fs">add fontSize</button>
+  <button type="fw">add fontWeight</button>
+  <button type="op">add opacity</button>
+  <span>点击多个按钮，一定延迟后一起改变状态</span>
   <script>
-    var mrDeng = {
-      sendFlower: function (target = {}) {
-        var Flower = 'sunflower';
-        target.receiveFlower && target.receiveFlower(Flower)
+
+    var oDiv = document.getElementById('show');
+    var oButtonArray = document.getElementsByTagName('button')
+
+    var ProxyRequest = function (func) {
+      var cache = [];
+      var timer = null;
+      return function () {
+        cache.push(this.getAttribute('type'));
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          func(oDiv, cache)
+          cache = [];
+        }, 1200);
+      }
+
+    }
+
+    var realChangeStyle = ProxyRequest(changeStyle);
+
+    for (var i = 0; i < oButtonArray.length; i++) {
+      oButtonArray[i].onclick = realChangeStyle;
+    }
+
+    function changeStyle(dom, type) {
+      // if (type === 'bg') {
+      //   dom.style.backgroundColor = 'green';
+      // }
+      var typeObj = {
+        bg: ['backgroundColor', 'green'],
+        cl: ['color', 'blue'],
+        fs: ['fontSize', '24px'],
+        fw: ['fontWeight', 'blod'],
+        op: ['opacity', '0.3']
+      }
+      if (type.constructor === Array) {
+        console.log(111)
+        type.forEach(item => {
+          dom.style[typeObj[item][0]] = typeObj[item][1]
+        });
+      } else {
+        dom.style[typeObj[type][0]] = typeObj[type][1]
       }
     }
 
-    // goddess
-    var goddess = {
-      mood: null,
-      receiveFlower: function (flower) {
-        //true good false bad
-        this.mood ? console.log('ok') : console.log('get out');
-      },
-      changeMood: function () {
-        this.mood = Math.random() > 0.5;
-      },
-      createMood: function () {
-        var self = this;
-        self.changeMood();
-        setInterval(function () {
-          self.changeMood();
-        }, 400);
-      }
-    }
+    // changeStyle(oDiv, ['bg', 'cl', 'fs'])
+    // var mrDeng = {
+    //   sendFlower: function (target = {}) {
+    //     var Flower = 'sunflower';
+    //     target.receiveFlower && target.receiveFlower(Flower)
+    //   }
+    // }
 
-    goddess.createMood();
+    // // goddess
+    // var goddess = {
+    //   mood: null,
+    //   receiveFlower: function (flower) {
+    //     //true good false bad
+    //     this.mood ? console.log('ok') : console.log('get out');
+    //   },
+    //   changeMood: function () {
+    //     this.mood = Math.random() > 0.5;
+    //   },
+    //   createMood: function () {
+    //     var self = this;
+    //     self.changeMood();
+    //     setInterval(function () {
+    //       self.changeMood();
+    //     }, 400);
+    //   }
+    // }
 
-    mrDeng.sendFlower(goddess)
+    // var cstProxy = {
+    //   proxyFlower: function (target) {
+    //     this.listenMood(target, function () {
+    //       mrDeng.sendFlower(target)
+    //     })
+    //   },
+    //   listenMood: function (target, cb) {
+    //     var timer = setInterval(function () {
+    //       if (target.mood) {
+    //         cb();
+    //         clearInterval(timer)
+    //       }
+    //     }, 300)
+    //   }
+    // }
+
+    // goddess.createMood();
+
+    // cstProxy.proxyFlower(goddess);
 
   </script>
 </body>
