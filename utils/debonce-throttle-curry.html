@@ -26,11 +26,13 @@
         function debonce(fn, wait) { //等待一定时间没有执行再执行
             let timer = null;
             return (...arg) => {
-                if (timer) {
-                    clearTimeout(timer);
-                }
+                clearTimeout(timer);
                 timer = setTimeout(() => {
-                    fn(...arg)
+                    try {
+                        fn(...arg)
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }, wait);
             }
         }
@@ -74,8 +76,8 @@
         // console.log(curry(Add, 1, 2, 3))
 
         const input = document.querySelector("#input");
-        input.oninput = throttle((e) => {
-            console.log(e.target.value, e)
+        input.oninput = debonce((e) => {
+            console.log(e.target.value)
         }, 1000)
 
         //实现一个 *add* 方法，使计算结果能够满足如下预期
