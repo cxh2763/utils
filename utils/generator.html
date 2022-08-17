@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function* task() { //生成器函数
+      const d = yield 1;
+      console.log(d)
+      const resp = yield fetch("https://open.duyiedu.com/api/meituan/header/search.json?appkey=276314445_1590670332060");
+      const result = yield resp.json();
+      console.log(result.data.list)
+    }
+
+
+
+    run(task)
+
+    // function run(generatorFunc) {
+    //   const generator = generatorFunc();
+    //   let result = generator.next();
+    //   handleResult(result);
+    //   function handleResult(result) {
+    //     if (result.done) {
+    //       return
+    //     }
+    //     if (typeof result.value.then === "function") {
+    //       result.value.then(data => {
+    //         result = generator.next(data);
+    //         handleResult(result);
+    //       }, err => {
+    //         result = generator.throw(err);
+    //         handleResult();
+    //       })
+    //     } else {
+    //       result = generator.next(result.value);
+    //       handleResult(result);
+    //     }
+    //   }
+    // }
+
+    function run(generatorFunc) {
+      const generator = generatorFunc();
+      let result = generator.next();//启动任务（开始迭代），得到迭代数据
+      handleResult(result);
+      //对result进行处理
+      function handleResult(result) {
+        if (result.done) {
+          return;//迭代完成，不处理
+        }
+        //没有完成做，分两种情况
+        if (typeof result.value.then === "function") {
+          //是一个promise,等待promise完成后再进行下一次迭代
+          result.value.then(data => {
+            result = generator.next(data)
+            handleResult(result)
+          }, err => {
+            result = generator.throw(err);
+            handleResult();
+          })
+        } else {
+          //是其他数据,直接进行下一次迭代
+          result = generator.next(result.value)
+          handleResult(result);
+        }
+      }
+    }
+
+
+
+    // 依次得到斐波拉契数列前面n位的值
+    // 1 1 2 3 5 8 13 .....
+
+    //创建一个斐波拉契数列的迭代器
+    function createFeiboIterator() {
+      let prev1 = 1,
+        prev2 = 1, //当前位置的前1位和前2位
+        n = 1; //当前是第几位
+
+      return {
+        next() {
+          let value;
+          if (n <= 2) {
+            value = 1;
+          } else {
+            value = prev1 + prev2;
+          }
+          const result = {
+            value,
+            done: false
+          };
+          prev2 = prev1;
+          prev1 = result.value;
+          n++;
+          return result;
+        }
+      }
+    }
+
+    const iterator = createFeiboIterator();
+  </script>
+</body>
+
+</html>

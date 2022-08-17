@@ -34,18 +34,47 @@ Promise.all = function (proms) {
   })
 }
 
+Promise.all = function (proms) {
+  return new Promise((resolve, reject) => {
+    try {
+      let Count = 0;
+      let fulfillCount = 0;
+      let result = [];
+      for (const item of proms) {
+        let index = Count;
+        Count++;//统计Promise个数
+        Promise.resolve(item).then((data) => {
+          result[index] = data;
+          fulfillCount++;
+          if (fulfillCount === Count) {
+            resolve(result);
+          }
+        }, reject)
+      }
+      if (Count === 0) {
+        resolve(result);
+      }
+    } catch (err) {
+      console.error(err)
+      reject(err);
+    }
+  })
+}
+
 let pro1 = new Promise((resolve) => {
-  resolve(1)
+  setTimeout(() => {
+    resolve(1)
+  }, 100);
 })
 let pro2 = new Promise((resolve) => {
-  resolve(1)
+  resolve(2)
 })
 let pro3 = new Promise((resolve, reject) => {
-  resolve(1)
+  reject(3)
 })
 let pro4 = new Promise((resolve, reject) => {
   setTimeout(() => {
-    resolve(1)
+    resolve(4)
   }, 50);
 })
 
@@ -56,3 +85,32 @@ proall.then((data) => {
 }, (err) => {
   console.log("err", err)
 })
+
+
+Promise.MyallSettled = function (proms) {
+  const result = [];
+  for (const item of proms) {
+    result.push(Promise.resolve(item).then((data) => {
+      return {
+        status: 'fulfilled',
+        value: data,
+      }
+    }, (error) => {
+      return {
+        status: 'rejected',
+        reason: error
+      }
+    }))
+  }
+  return Promise.all(result);
+}
+
+// let proAllSet = Promise.MyallSettled([pro1, pro2, pro3, pro4]);
+// proAllSet.then((data) => {
+//   console.log(data);
+// })
+
+// Promise.allSettled([pro1, pro2, pro3, pro4]).then((data) => {
+//   console.log(data)
+// })
+

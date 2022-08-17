@@ -8,53 +8,132 @@
   <title>Document</title>
   <script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script>
   <style>
-    ul,
-    li {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    .container {
+      height: 100%;
+      width: 100%;
     }
 
-    li {
-      width: 150px;
-      height: 50px;
-      background: yellowgreen;
+    .game-container {
+      width: 500px;
+      margin-top: 100px;
+      margin-left: 50%;
     }
 
-    .active {
-      background: red;
-      height: 150px;
+    .result-list {
+      position: absolute;
+      top: 0;
     }
   </style>
 </head>
 
 <body>
   <div id="app">
-    <h1>标题</h1>
-    <ul @mouseout="changeActive(0)">
-      <li v-for="item in list" :key="item.id" :class="{active:item.id === active}" @mouseover="changeActive(item.id)">
-        {{item.name}}</li>
-    </ul>
+    <div class="container">
+      <div class="game-container">
+        <h1>
+          请输入你猜的数字 <br>
+          一共游戏： <span id="nums">{{Anums + Bnums}}</span>轮 <br>
+          当前玩家：<span id="player">{{player}}</span>玩家 <br>
+          A的分数： <span id="Ascore">{{Ascore}}</span> 胜率：{{Awin}}/{{Anums}} {{Awinrate}}%<br>
+          B的分数： <span id="Bscore">{{Bscore}}</span>胜率：{{Bwin}}/{{Bnums}} {{Bwinrate}}%<br>
+        </h1>
+        <input type="tel" maxlength="3" @keydown="submit" style="width: 200px;height:30px" v-model="value">
+        <button @click="changePlayer" style="height:30px">切换玩家</button>
+      </div>
+      <div class="result-list">
+        <h1>保留最近十次结果</h1>
+        <div v-for="(item,index) in resultList" :key=index>
+          <h3>答案： {{item.value}} {{item.player}}输入{{item.arr.toString()}} {{item.result?'猜对了':'猜错了'}}</h3>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
     const vm = new Vue({
       el: "#app",
       data: {
-        active: 0,
-        list: [{
-          id: 1,
-          name: "列表1"
-        }, {
-          id: 2,
-          name: "列表2",
-        }, {
-          id: 3,
-          name: "列表3",
-        }]
+        player: 'A',
+        Ascore: 0,
+        Bscore: 0,
+        Awin: 0,
+        Bwin: 0,
+        Anums: 0,
+        Bnums: 0,
+        value: '',
+        resultList: [],
       },
       methods: {
-        changeActive(index) {
-          this.active = index;
+        changePlayer() {
+          this.value = '';
+          this.player === 'A' ? this.player = 'B' : this.player = 'A';
+        },
+        submit(e) {
+          if (e.code === 'NumpadEnter') {
+            this.getScore();
+          }
+          if (e.code === 'Enter') {
+            this.changePlayer();
+          }
+        },
+        getScore() {
+          let result = false;
+          let flag = this.getRandom();
+          let arr = this.value.trim().split('');
+          arr.indexOf(flag) !== -1 ? result = true : result = false;
+          this.resultList.push({
+            arr: arr,
+            value: flag,
+            result: result,
+            player: this.player,
+          })
+          if (this.player === 'A') {
+            this.Anums++;
+            if (result) {
+              this.Awin++;
+              this.Ascore += 10;
+              this.Bscore -= 10;
+            } else {
+              this.Ascore -= 5;
+              this.Bscore += 5;
+            }
+          } else {
+            this.Bnums++;
+            if (result) {
+              this.Bwin++;
+              this.Bscore += 10;
+              this.Ascore -= 10;
+            } else {
+              this.Bscore -= 5;
+              this.Ascore += 5;
+            }
+          }
+          this.value = '';
+        },
+        getRandom() {
+          return Math.floor(Math.random() * 10).toString();
+        },
+      },
+      watch: {
+        resultList: {
+          handler(newVal) {
+            if (newVal.length === 10) {
+              this.resultList.shift();
+            }
+          }
+        }
+      },
+      computed: {
+        Awinrate: function () {
+          if (this.Anums === 0) {
+            return 0;
+          }
+          return (this.Awin / this.Anums * 100).toFixed(2);
+        },
+        Bwinrate: function () {
+          if (this.Bnums === 0) {
+            return 0;
+          }
+          return (this.Bwin / this.Bnums * 100).toFixed(2);
         }
       }
     })
