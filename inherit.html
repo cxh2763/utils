@@ -10,16 +10,29 @@
 
 <body>
   <script>
+    //经典模式
+    //Student.prototype = new Person(); // 改变 Student 构造函数的原型对象
     //继承是指构造函数之间的
-    let inherit = (function () {//继承就是让子构造函数的prototype指向父构造函数的prototype
-      let F = function () { }
+    // let inherit = (function () {//继承就是让子构造函数的prototype指向父构造函数的prototype
+    //   let F = function () { }
+    //   return function (Target, Origin) {
+    //     F.prototype = Origin.prototype;
+    //     Target.prototype = new F();
+    //     Target.prototype.constructor = Target;
+    //     Target.prototype.uber = Origin.prototype; //保存他继承与那个对象
+    //   }
+    // }())
+    //圣杯模式
+    let inherit = (function () {
+      let F = function () { };
       return function (Target, Origin) {
         F.prototype = Origin.prototype;
         Target.prototype = new F();
         Target.prototype.constructor = Target;
-        Target.prototype.uber = Origin.prototype; //保存他继承与那个对象
+        Target.prototype.uber = Origin.prototype;
       }
-    }())
+    })()
+
 
     function animal() {
 

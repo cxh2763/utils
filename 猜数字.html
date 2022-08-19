@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script>
+  <style>
+    .container {
+      height: 100%;
+      width: 100%;
+    }
+
+    .game-container {
+      width: 500px;
+      margin-top: 100px;
+      margin-left: 50%;
+    }
+
+    .result-list {
+      position: absolute;
+      top: 0;
+    }
+
+    .value {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+      <div class="game-container">
+        <h1>
+          请输入你猜的数字 <br>
+          一共游戏： <span id="nums">{{Anums + Bnums}}</span>轮 <br>
+          当前玩家：<span id="player">{{player}}</span>玩家 <br>
+          A的分数： <span id="Ascore">{{Ascore}}</span> 胜率：{{Awin}}/{{Anums}} {{Awinrate}}%<br>
+          B的分数： <span id="Bscore">{{Bscore}}</span>胜率：{{Bwin}}/{{Bnums}} {{Bwinrate}}%<br>
+        </h1>
+        <input type="tel" maxlength="3" @keydown="submit" style="width: 200px;height:30px" v-model="value">
+        <button @click="changePlayer" style="height:30px">切换玩家</button>
+      </div>
+      <div class="result-list">
+        <h1>保留最近十次结果</h1>
+        <div v-for="(item,index) in resultList" :key=index>
+          <h3>答案： <span class="value">{{item.value}}</span> {{item.player}}输入{{item.arr.toString()}}
+            {{item.result?'猜对了':'猜错了'}}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        player: 'A',
+        Ascore: 0,
+        Bscore: 0,
+        Awin: 0,
+        Bwin: 0,
+        Anums: 0,
+        Bnums: 0,
+        value: '',
+        resultList: [],
+      },
+      methods: {
+        changePlayer() {
+          this.value = '';
+          this.player === 'A' ? this.player = 'B' : this.player = 'A';
+        },
+        submit(e) {
+          if (e.code === 'NumpadEnter' && this.value.length === 3) {
+            this.getScore();
+          }
+          if (e.code === 'Enter') {
+            this.changePlayer();
+          }
+        },
+        getScore() {
+          let result = false;
+          let flag = this.getRandom();
+          let arr = this.value.trim().split('');
+          arr.indexOf(flag) !== -1 ? result = true : result = false;
+          this.resultList.push({
+            arr: arr,
+            value: flag,
+            result: result,
+            player: this.player,
+          })
+          if (this.player === 'A') {
+            this.Anums++;
+            if (result) {
+              this.Awin++;
+              this.Ascore += 10;
+              this.Bscore -= 10;
+              alert('A猜对了')
+            } else {
+              this.Ascore -= 5;
+              this.Bscore += 5;
+            }
+          } else {
+            this.Bnums++;
+            if (result) {
+              this.Bwin++;
+              this.Bscore += 10;
+              this.Ascore -= 10;
+              alert('B猜对了')
+            } else {
+              this.Bscore -= 5;
+              this.Ascore += 5;
+            }
+          }
+          this.value = '';
+        },
+        getRandom() {
+          return Math.floor(Math.random() * 10).toString();
+        },
+      },
+      watch: {
+        resultList: {
+          handler(newVal) {
+            if (newVal.length === 10) {
+              this.resultList.shift();
+            }
+          }
+        }
+      },
+      computed: {
+        Awinrate: function () {
+          if (this.Anums === 0) {
+            return 0;
+          }
+          return (this.Awin / this.Anums * 100).toFixed(2);
+        },
+        Bwinrate: function () {
+          if (this.Bnums === 0) {
+            return 0;
+          }
+          return (this.Bwin / this.Bnums * 100).toFixed(2);
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
