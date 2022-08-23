@@ -8,53 +8,16 @@
   <title>Document</title>
 </head>
 <style>
-  .column {
-    position: relative;
-    float: left;
-  }
-
-  .center {
-    width: 100%;
-    background-color: red;
-    text-align: right;
-  }
-
-  .left {
-    width: 150px;
-    background-color: blue;
-    text-align: center;
-    margin-left: -100%;
-    left: -150px;
-  }
-
-  .right {
-    width: 200px;
-    background-color: yellow;
-    text-align: center;
-    margin-left: -200px;
-    left: 200px;
-  }
-
-  .wrapper {
-    min-width: 800px;
-    padding: 0 200px 0 150px;
-  }
-
-  .clearfix::after {
-    content: '';
-    display: block;
-    clear: both;
+  .sjx {
+    width: 0;
+    height: 0;
+    border: 100px solid transparent;
+    border-bottom: 100px solid red;
   }
 </style>
 
 <body>
-  <header>头部</header>
-  <div class="clearfix wrapper">
-    <div class="center column">主区域</div>
-    <div class="left column">左区域</div>
-    <div class="right column">右区域</div>
-  </div>
-  <footer class="foot">尾部</footer>
+  <div class="sjx"></div>
 </body>
 
 </html>

@@ -26,21 +26,19 @@ function fn() {
 }
 
 function MySetInterval(fn, wait) {
-  let stop = {
-    stop: false
-  }
+  let timer = null;
   function interval() {
-    if (stop.stop) {
-      return;
-    }
-    setTimeout(interval, wait);
+    timer = setTimeout(interval, wait);
     fn();
   }
-  setTimeout(interval, wait);
-  return stop;
+  timer = setTimeout(interval, wait);
+  interval.cancel = function () {
+    clearTimeout(timer);
+  }
+  return interval;
 }
 
-let stop = MySetInterval(fn, 1000);
+let MyInterval = MySetInterval(fn, 1000);
 setTimeout(() => {
-  stop.stop = true;
+  MyInterval.cancel();
 }, 10000);

@@ -27,17 +27,22 @@ Function.prototype.MyApply2 = function (obj, arguements) {
         enumerable: false,
         configurable: true,
     })
-    // obj[key] = this;
+    // obj[key] = this; this就是fn
     const result = obj[key](...arguements)
     delete obj[key];
     return result;
 }
 
 Function.prototype.MyCall = function (obj, ...args) {
-    const _this = obj || window;
-    _this.fn = this; //默认的this是指向被调用的func的
-    const result = _this.fn(...args)
-    delete _this.fn;
+    obj = (obj === undefined || obj === null) ? globalThis : Object(obj);
+    const key = Symbol('key');
+    Object.defineProperty(obj, key, {
+        value: this,
+        enumerable: false,
+        configurable: true,
+    })
+    const result = obj[key](...args)
+    delete obj[key];
     return result;
 }
 
@@ -56,11 +61,11 @@ Function.prototype.Mybind = function (obj, ...arg1) {
 }
 
 // console.log(person.fullName());
-// console.log(person.fullName.MyApply2(person1, [18, 1000]))
+console.log(person.fullName.MyApply2(person1, [18, 1000]))
 // console.log(person1)
 // console.log(Object.getOwnPropertySymbols(person1))
 // console.log(person.fullName.MyCall(person1, 18, 1000))
 // console.log(person.fullName.Mybind(person1, 1, 2, 3, 4)(5, 6))
-const result = person.fullName.Mybind(person1, 1, 2, 3, 4)
-const result1 = person.fullName.bind(person1, 1, 2, 3, 4)
-console.log(result.prototype.__proto__ === person.fullName.prototype)
+// const result = person.fullName.Mybind(person1, 1, 2, 3, 4)
+// const result1 = person.fullName.bind(person1, 1, 2, 3, 4)
+// console.log(result.prototype.__proto__ === person.fullName.prototype)
