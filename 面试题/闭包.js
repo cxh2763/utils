@@ -1,7 +1,9 @@
-for (var i = 0; i < 6; i++) {
-  setTimeout((function (i) {
-    return function () {
+async function func() {
+  for (let i = 0; i < 6; i++) {
+    setTimeout(function () {
       console.log(i)
-    }
-  })(i), 1000);
+    }, 1000);
+  }
 }
+
+func();

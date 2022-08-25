@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  body {
+    width: 100%;
+    height: 100vh;
+  }
+
+  #content {
+    height: 100%;
+  }
+</style>
+
+<body>
+  <!-- <img src="./example.jpg" loading="lazy"> 第一种懒加载方法-->
+  <!-- default一般是loading -->
+  <div id="content">
+    <img src="./img/default.png" data-src="./img/1.jpg" />
+    <img src="./img/default.png" data-src="./img/2.jpg" />
+    <img src="./img/default.png" data-src="./img/3.jpg" />
+    <img src="./img/default.png" data-src="./img/4.jpg" />
+    <img src="./img/default.png" data-src="./img/5.jpg" />
+    <img src="./img/default.png" data-src="./img/6.jpg" />
+    <img src="./img/default.png" data-src="./img/7.jpg" />
+    <img src="./img/default.png" data-src="./img/8.jpg" />
+    <img src="./img/default.png" data-src="./img/9.jpg" />
+    <img src="./img/default.png" data-src="./img/10.jpg" />
+  </div>
+</body>
+<script>
+  /***
+   * 第二种懒加载方法，当图片进入视图的时候把data-src赋值给src
+  */
+  // function lazyload() {
+  //   let viewHeight = document.body.clientHeight; //获取可视区域高度
+  //   let imgs = document.querySelectorAll("img[data-src]");
+  //   imgs.forEach((item, index) => {
+  //     if (item.dataset.src === '') {
+  //       return
+  //     }
+  //     let rect = item.getBoundingClientRect();//获取页面中某个元素的左上右下分别相对浏览器视窗的位置
+  //     if (rect.bottom >= 0 && rect.top < viewHeight) {
+  //       item.src = item.dataset.src;
+  //       item.removeAttribute('data-src');
+  //     }
+  //   })
+  // }
+  // window.addEventListener('scroll', debonce(lazyload, 800));
+  // //这个事件可以加一个防抖
+  // function debonce(fn, wait) {
+  //   let timer = null;
+  //   return function result(...arg) {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => {
+  //       fn();
+  //     }, wait);
+  //   }
+  // }
+
+  /***
+   * 第三种方法，h5新出的api
+   */
+  // let io = new IntersectionObserver(callback, option) //回调函数再目标元素刚进入视口的时候会执行一次，离开视口的时候又会执行一次
+  // //开始观察
+  // io.observe(document.getElementById('example'))
+  // //停止观察
+  // io.observe(element);
+  // //关闭观察器
+  // io.disconnect();
+
+  const imgs = document.querySelectorAll('img[data-src]');
+  const config = {
+    rootMargin: '0px', //重叠门槛
+    threshold: 0,
+  }
+  let observe = new IntersectionObserver((entries, self) => {
+    entries.forEach((entry) => {
+      console.log(entry)
+      if (entry.isIntersecting) {
+        let img = entry.target;
+        let src = img.dataset.src;
+        if (src) {
+          img.src = src
+          img.removeAttribute('data-src');
+        }
+        //解除观察
+        self.unobserve(entry.target);
+      }
+    })
+  }, config)
+  imgs.forEach((img) => {
+    observe.observe(img);
+  })
+
+</script>
+
+</html>
