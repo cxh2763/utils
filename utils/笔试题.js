@@ -1,49 +1,70 @@
-function func(n) {
-  let result = 0;
-  for (let i = 1; i <= n; i++) {
-    if (('' + i).indexOf('25') !== -1) {
-      result++;
+function func(nodes) {
+  let result = [];
+  let path = [];
+  function findPath(nowNode) {
+    if (nowNode === nodes.length - 1) {
+      result.push(path.slice());
+      return;
+    }
+    for (let i = 0; i < nodes[nowNode].length; i++) {
+      path.push(nowNode)
+      findPath(nodes[nowNode][i]);
+      path.pop(nowNode);
     }
   }
+  findPath(0);
   return result;
 }
+console.log(func([[1, 2, 3], [3], [3], [4], []]));
 
-function func2(n) {
-  if (n < 25) {
-    return 0;
-  }
-  if (n < 100) {
-    return 1;
-  }
-  let Arr = new Array(9).fill(0);
-  Arr[3] = 1;
-  for (let i = 4; i < 10; i++) {
-    Arr[i] = Arr[i - 1] * 10 + 10 ** (i - 3) - Arr[i - 2];
-  }
-  function getResult(str, result) {
-    const length = str.length;
-    let FirstTwo = +str.slice(0, 2);
-    if (length === 2) {
-      if (FirstTwo >= 25) {
-        result += 1;
-      }
-      return result;
-    }
-    if (FirstTwo > 25) {
-      result = result + 10 ** (length - 2) - Arr[length - 1];
-    }
-    if (FirstTwo === 25) {
-      result += (+str.slice(2)) + 1;
-    }
-    result += (+Arr[length]) * (+str.charAt(0))
-    return getResult(str.slice(1), result);
-  }
-  return getResult('' + n, 0);
-}
-console.log(
-  func(5635421),
-  func2(5635421),
-)
+
+
+// function func(n) {
+//   let result = 0;
+//   for (let i = 1; i <= n; i++) {
+//     if (('' + i).indexOf('25') !== -1) {
+//       result++;
+//     }
+//   }
+//   return result;
+// }
+
+// function func2(n) {
+//   if (n < 25) {
+//     return 0;
+//   }
+//   if (n < 100) {
+//     return 1;
+//   }
+//   let Arr = new Array(9).fill(0);
+//   Arr[3] = 1;
+//   for (let i = 4; i < 10; i++) {
+//     Arr[i] = Arr[i - 1] * 10 + 10 ** (i - 3) - Arr[i - 2];
+//   }
+//   function getResult(str, result) {
+//     const length = str.length;
+//     let FirstTwo = +str.slice(0, 2);
+//     if (length === 2) {
+//       if (FirstTwo >= 25) {
+//         result += 1;
+//       }
+//       return result;
+//     }
+//     if (FirstTwo > 25) {
+//       result = result + 10 ** (length - 2) - Arr[length - 1];
+//     }
+//     if (FirstTwo === 25) {
+//       result += (+str.slice(2)) + 1;
+//     }
+//     result += (+Arr[length]) * (+str.charAt(0))
+//     return getResult(str.slice(1), result);
+//   }
+//   return getResult('' + n, 0);
+// }
+// console.log(
+//   func(5635421),
+//   func2(5635421),
+// )
 
 //1
 // 20
