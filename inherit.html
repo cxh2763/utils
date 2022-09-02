@@ -23,16 +23,25 @@
     //   }
     // }())
     //圣杯模式
+    // let inherit = (function () {
+    //   let F = function () { };
+    //   return function (Target, Origin) {
+    //     F.prototype = Origin.prototype;
+    //     Target.prototype = new F();
+    //     Target.prototype.constructor = Target;
+    //     Target.prototype.uber = Origin.prototype;
+    //   }
+    // })()
+
     let inherit = (function () {
-      let F = function () { };
+      let F = function () { }
       return function (Target, Origin) {
         F.prototype = Origin.prototype;
         Target.prototype = new F();
         Target.prototype.constructor = Target;
         Target.prototype.uber = Origin.prototype;
       }
-    })()
-
+    }())
 
     function animal() {
 
