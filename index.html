@@ -9,11 +9,18 @@
 </head>
 
 <body>
-  <script src="./utils/apply.js"></script>
+  <!-- <script src="./utils/apply.js"></script> -->
   <!-- <script src="./足球队.js"></script> -->
   <!-- <script src="./utils/deepclone.js"></script>
   <script src="/面经/ajax.js"></script> -->
   <script id='1'>
+    let obj = {
+      name: 'obj'
+    }
+    function a() {
+      let name = 'a'
+      console.log(this.name);
+    }
     // const myAjax = new Ajax({
     //   method: 'GET',
     //   url: 'https://open.duyiedu.com/api/meituan/header/search.json?appkey=276314445_1590670332060',

@@ -1,4 +1,214 @@
 
+
+// function func1(n) {
+//   if (n < 2) {
+//     return 0;
+//   }
+//   if (n === 2) {
+//     return 1;
+//   }
+//   let result = 0;
+//   for (let i = 2; i <= n; i++) {
+//     let j = i;
+//     let result0 = n;
+//     let result1 = j;
+//     for (let m = 1; m < j; m++) {
+//       result0 = result0 * (n - m);
+//       result1 = result1 * (j - m);
+//     }
+//     // console.log(result0, result1)
+//     result += result0 / result1;
+//     result0 = n;
+//     result1 = j;
+//   }
+//   // console.log(result);
+//   return result;
+// }
+// func1(3)
+
+// function func(arr, len) {
+//   let result = 0;
+//   let odd = 0;
+//   let even = 0;
+//   for (let i = 0; i < len; i++) {
+//     if (arr[i] % 2 === 0) {
+//       even++;
+//     } else {
+//       odd++;
+//     }
+//   }
+//   result += func1(odd) + func1(even);
+//   result = result % 1000000007;
+//   console.log(result);
+//   return result;
+// }
+// func([1, 2, 5, 2, 8], 5)
+
+
+// let len = +readline();
+// let arr = readline().split(' ').map(Number);
+
+// function func(arr, len) {
+//   let result;
+//   let odd = 0;
+//   let even = 0;
+// for(const it of arr){
+//     if(it % 2 === 0){
+//         odd++;
+//     }else{
+//         even++;
+//     }
+// }
+//     function fun(n){
+//         if(n < 2)
+//             return 0;
+//         return 2 ** n - n - 1;
+//     }
+//   result = (fun(odd) + fun(even))%1000000007;
+//   console.log(result);
+//   return result;
+// }
+// func(arr,len);
+// function func(str) {
+//   let result = 0;
+//   for (let i = 0; i < str.length - 2; i++) {
+//     if (str[i] !== str[i + 1]) {
+//       result++;
+//     }
+//   }
+//   console.log(result);
+//   return result;
+// }
+// func('abccaa');
+// let items = [];
+// let result = {
+//   odd: 0,
+//   even: 0,
+// }
+// var len = 100000;
+// for (var i = 0; i < len; i++) {
+//   items[i] = i;
+// }
+// function callback() {
+//   console.log("done");
+// }
+// function process(items, callback) {
+//   for (const it of items) {
+//     it % 2 ? result.odd++ : result.even++;
+//   }
+//   callback();
+// }
+// process(items, callback);
+
+// function makeChagne(change) {
+//   // write code here
+//   let result = [0, 0, 0, 0, 0];
+//   let money = [100, 50, 20, 5, 1];
+//   while (change > 0) {
+//     for (let i = 0; i < money.length; i++) {
+//       result[i] += Math.floor(change / money[i]);
+//       change = change % money[i];
+//     }
+//   }
+//   return result;
+// }
+// makeChagne(126);
+// function func(str) {
+//   let queryArr = str.split('?')[1].split('#')[0].split('&').map((it) => {
+//     let [key, value] = it.split('=');
+//     return { [key]: value ? value : '' };
+//   });
+//   let result = {}
+//   for (const it of queryArr) {
+//     result = { ...result, ...it }
+//   }
+//   console.log(JSON.stringify(result));
+// }
+// func("http://xxx.com?a=1&b=2&c=xx&d#hash")
+
+// (function func() {
+//   let name = 1;
+//   let obj = {
+//     name: 10,
+//   }
+//   function func2() {
+//     name = name * 2;
+//   }
+//   func2.apply(obj);
+//   console.log(obj.name + name);
+// })()
+// let Arr = [];
+// function func() {
+//   for (var i = 0; i < 5; i++) {
+//     ((i) => {
+//       setTimeout(() => {
+//         console.log(i);
+//       })
+//     })(i)
+//   }
+// }
+// func();
+// for (const it of Arr) {
+//   it();
+// }
+// Function.prototype.sangfor = function () {
+//   return Function.prototype.call.bind(this);
+// }
+// console.log(Array.prototype.push.sangfor()([], 0, 1, 2))
+// console.log(Array.prototype.push.call([], 0, 1, 2))
+// let obj = {
+//   name: 'obj'
+// }
+// function a() {
+//   let name = 'a'
+//   console.log(this)
+//   console.log(this.name);
+// }
+// Function.prototype.Mycall = function () {
+//   return Function.prototype.call.bind(this);
+// };
+// a.Mycall()(obj);
+
+// function func(arr) {
+//   let result = [];
+//   for (const it of arr) {
+//     for (const it2 of arr) {
+//       if (it !== it2 && it2.startsWith(it) && result.indexOf(it) === -1) {
+//         result.push(it);
+//       }
+//     }
+//   }
+//   console.log(result.join(','));
+// }
+// func(['/a', '/a / b', '/a/c', '/b/c', '/b/c / d', '/b/cf']);
+// function func(str) {
+//   let Newstr = str.slice(1);
+//   if (Newstr.length !== 3 && Newstr.length !== 6) {
+//     return str;
+//   }
+//   let strArr = Newstr.split('');
+//   let newArr = ['', '', ''];
+//   if (strArr.length === 3) {
+//     for (let i = 0; i < strArr.length; i++) {
+//       newArr[i] += strArr[i];
+//       newArr[i] += strArr[i];
+
+//     }
+//   } else {
+//     for (let i = 0; i < strArr.length; i++) {
+//       let j = i / 2;
+//       newArr[j] += strArr[i++];
+//       newArr[j] += strArr[i];
+//     }
+//   }
+//   parseInt(newArr[0], 16)
+//   parseInt(newArr[1], 16)
+//   parseInt(newArr[2], 16)
+//   let result = `rgb(${parseInt(newArr[0], 16)},${parseInt(newArr[1], 16)},${parseInt(newArr[2], 16)})`
+//   return result;
+// }
+// console.log(func('#FaFaF'))
+
 // function func2(n) {
 //   let arr = new Array(n + 1).fill(0);
 //   arr[1] = 1;

@@ -7,16 +7,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    #example {
-      margin-bottom: -5px;
+    .parent {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border: 1px solid red;
+    }
+
+    .children {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      background-color: green;
+      margin-top: 50%;
+      margin-left: 50%;
     }
   </style>
 </head>
 
 <body>
-  <p id="example">Hello</p>
-  <script>
-  </script>
+  <div class="parent">
+    <div class="children">
+
+    </div>
+  </div>
 </body>
 
 </html>

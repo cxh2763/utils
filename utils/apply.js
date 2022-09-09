@@ -2,13 +2,16 @@ var person = {
     firstName: "c",
     lastName: "xh",
     fullName: function (age = 20, money = 100) {
-        console.log(arguments)
         return `${this.firstName}${this.lastName} ${age} ${money}`;
     }
 }
 var person1 = {
     firstName: "Bill",
     lastName: "Gates",
+}
+
+function SayName() {
+    console.log(this.firstName + this.lastName);
 }
 
 Function.prototype.MyApply = function (obj, arguements) {
@@ -49,19 +52,21 @@ Function.prototype.MyCall = function (obj, ...args) {
 Function.prototype.Mybind = function (obj, ...arg1) {
     obj = (obj === undefined || obj === null) ? globalThis : Object(obj);
     const fn = Object(this); //默认的this是指向被调用的func的
-    const temp = function () { };
+    // const temp = function () { };
     const result = function (...arg2) {
         const arg = [...arg1, ...arg2];
         return fn.apply(obj, arg);
     }
-    temp.prototype = fn.prototype;
-    result.prototype = new temp;
+    // temp.prototype = fn.prototype;
+    // result.prototype = new temp;
 
     return result;
 }
 
+SayName.bind(person).bind(person1)();
+
 // console.log(person.fullName());
-console.log(person.fullName.MyApply2(person1, [18, 1000]))
+// console.log(person.fullName.MyApply2(person1, [18, 1000]))
 // console.log(person1)
 // console.log(Object.getOwnPropertySymbols(person1))
 // console.log(person.fullName.MyCall(person1, 18, 1000))
