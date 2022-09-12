@@ -1,3 +1,7 @@
+function func(...arg) {
+  console.log(arg);
+}
+func(1, 2, 3, 4, 5)
 // function solution(w, timeArr) {
 //   // 在这⾥写代码
 //   let result = ''
