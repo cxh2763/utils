@@ -1,4 +1,128 @@
+// function convertToEnglish(num) {
+//   // write code here
+//   let obj = {
+//     0: "zero",
+//     1: "one",
+//     2: "two",
+//     3: "three",
+//     4: "four",
+//     5: "five",
+//     6: "six",
+//     7: "seven",
+//     8: "eight",
+//     9: "nine",
+//     10: "ten",
+//     11: "eleven",
+//     12: "twevle",
+//     13: "thirteen",
+//     14: "fourteen",
+//     15: "fifteen",
+//     16: "sixteen",
+//     17: "seventeen",
+//     18: "eighteen",
+//     19: "nineteen",
+//     20: "twenty",
+//     30: "thirty",
+//     40: "forty",
+//     50: "fifty",
+//     60: "sixty",
+//     70: "seventy",
+//     80: "eighty",
+//     90: "ninty",
+//     100: "one-hundred"
+//   }
+//   if (num <= 20 || num % 10 === 0) {
+//     return obj[num];
+//   } else {
+//     let left = num % 10;
+//     let right = Math.floor(num / 10);
+//     let result = `${obj[left * 10]}-${obj[right]}`;
+//     return result;
+//   }
+// }
+// function minimumOperations(tyres) {
 
+// }
+// function minimumOperations(tyres) {
+//   let flag = 0;
+//   if (tyres[0] === 'L') {
+//     flag++;
+//   }
+//   if (tyres[tyres.length - 1] === 'L') {
+//     flag++;
+//   }
+//   let left = 0;
+//   let right = tyres.length - 1;
+//   while (left < right) {
+//     if (tyres[left] === 'S') {
+//       left++;
+//     }
+//     if (tyres[right] === 'S') {
+//       right--;
+//     }
+//     if (tyres[left] === tyres[right] && tyres[left] === 'L') {
+//       break;
+//     }
+//   }
+//   let newStr = tyres.slice(left, right + 1);
+//   console.log(newStr)
+//   let obj = {
+//     S: 0,
+//     L: 0,
+//   }
+//   for (let i = 0; i < newStr.length; i++) {
+//     if (newStr[i] === 'S') {
+//       obj.S++;
+//     } else {
+//       obj.L++;
+//     }
+//   }
+//   let result = Math.min(obj.S, obj.L) += flag;
+//   return result;
+// }
+// console.log(minimumOperations("SLSLSL"));
+// function func(str) {
+//   if (str.length % 2 !== 0) {
+//     return false;
+//   }
+//   let left = ['{', '[', '('];
+//   let right = ['}', ']', ')'];
+//   let stack = [];
+//   let result = true;
+//   for (let i = 0; i < str.length; i++) {
+//     if (left.indexOf(str[i]) !== -1) {
+//       stack.push(str[i]);
+//     } else {
+//       if (left.indexOf(stack.pop()) !== right.indexOf(str[i])) {
+//         result = false;
+//         break;
+//       }
+//     }
+//   }
+//   return result;
+// }
+// console.log(func(''))
+
+// function func(str) {
+//   let left = 0;
+//   let right = str.length - 1;
+//   let result = true;
+//   while (left < right) {
+//     if (str[left] !== str[right]) {
+//       result = false;
+//       break;
+//     }
+//     left++;
+//     right--;
+//   }
+//   if (result) {
+//     console.log('是');
+//   } else {
+//     console.log('否');
+//   }
+//   return result;
+// }
+// func('aa');
 
 // function func1(n) {
 //   if (n < 2) {
