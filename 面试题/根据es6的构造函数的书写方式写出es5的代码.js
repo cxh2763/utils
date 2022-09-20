@@ -6,6 +6,9 @@
 //     const fun = () => { console.log(this.name) }
 //     fun();
 //   }
+//   static staticFunc() {
+//     console.log('这是一个静态方法');
+//   }
 // }
 // const e = new Example('Hello');
 // e.init();
@@ -33,6 +36,19 @@ Object.defineProperty(Example.prototype, 'init', {
   },
   enumerable: false,
 })
+Object.defineProperty(Example, 'staticFunc', {
+  value: function () {
+    "use strict"
+    if (new.target) {
+      throw new Error('这不是一个构造函数');
+    }
+    let fn = function () {
+      console.log('这是一个静态方法');
+    }
+    fn();
+  }
+})
 
 const e = new Example('Hello');
-e.init()
+e.init();
+Example.staticFunc();

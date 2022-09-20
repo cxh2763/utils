@@ -1,7 +1,164 @@
-function func(...arg) {
-  console.log(arg);
-}
-func(1, 2, 3, 4, 5)
+// function calc(flaw, string) {
+//   const item = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+//   let left = 0;
+//   let right = string.length - 1;
+//   function getflaw(str) {
+//     let num = 0;
+//     for (let i = 0; i < str.length; i++) {
+//       if (!item.includes(str[i])) {
+//         num++;
+//       }
+//     }
+//     return num;
+//   }
+//   while ((right - left) > flaw) {
+//     if (item.includes(string[left]) && item.includes(string[right])) {
+//       let num = getflaw(string.slice(left, right + 1));
+//       if (num < flaw) {
+//         return 0;
+//       } else if (num === flaw) {
+//         let result = right - left + 1
+//         return result;
+//       } else {
+//         return Math.max(calc(flaw, string.slice(left, right)), calc(flaw, string.slice(left + 1, right + 1)));
+//       }
+//     } else if (item.includes(string[left])) {
+//       right--;
+//     } else if (item.includes(string[right])) {
+//       left++;
+//     } else {
+//       right--;
+//       left++;
+//     }
+//   }
+//   return 0;
+// }
+// console.log(calc(2, 'aeueo'));
+// console.log(calc(0, 'asdbuiodevauufgh'))
+
+// var x;
+// var y = 1;
+// console.log(y + x);
+// console.log(isNaN(undefined))
+// "use strict"
+// var a;
+// if (true) {
+//   console.log(a);
+//   a = 5;
+//   b = 1;
+//   function a() { }
+//   function b() { }
+//   a = 0;
+//   console.log(a);
+// }
+// console.log(a);
+// console.log(b);
+// function a() {
+//   var i = 1;
+//   return function () {
+//     return;
+//     var b = i;
+//   }
+// }
+// a()();
+// function func(arr) {
+//   let left = -1;
+//   let right = 0;
+//   let map = new Map();
+//   let result = [];
+//   while (left < arr.length) {
+//     while (arr[right + 1] === (arr[right] + 1)) {
+//       right++;
+//     }
+//     if ((right - left) > 2) {
+//       result.push(`${arr[++left]}-${arr[right]}`);
+//       left = right;
+//     } else {
+//       while (left < right) {
+//         left++;
+//         if (left < arr.length) {
+//           result.push(arr[left]);
+//         }
+//       }
+//     }
+//     right++;
+//   }
+//   return result.join(',')
+// }
+
+// console.log(func([-3, -2, -1, 2, 10, 15, 16, 18, 19, 20]))
+// var balancedString = function (s) {
+//   const count = s.length / 4;
+//   const map = { 'A': 0, 'S': 0, 'D': 0, 'F': 0 };
+//   for (let i = 0; i < s.length; i++) {
+//     map[s[i]]++;
+//   }
+
+//   if (map['A'] === count && map['S'] === count && map['D'] === count && map['F'] === count) return 0;
+
+//   let left = 0;
+//   let right = 0;
+//   let min = Infinity;
+//   while (right < s.length) {
+//     map[s[right]]--;
+//     while (left <= right && map['A'] <= count && map['S'] <= count && map['D'] <= count && map['F'] <= count) {
+//       min = Math.min(min, right - left + 1);
+//       map[s[left]]++;
+//       left++;
+//     }
+//     right++;
+//   }
+//   return min;
+// };
+// console.log(balancedString('ADDF'))
+// function func(input) {
+//   let now = input[0];
+//   let result = now;
+//   for (let i = 0; i < input.length - 1; i++) {
+//     if (input[i] === input[i + 1]) {
+//       now += input[i + 1];
+//       if (now.length > result.length) {
+//         result = now;
+//       }
+//     } else {
+//       now = input[i + 1];
+//     }
+//   }
+//   return result;
+// }
+// console.log(func("abbcccdeffff"))
+// function func(input) {
+//   let arr = input.split(' ');
+//   let newArr = [];
+//   let len = arr.length;
+//   newArr.push(arr[len - 1]);
+//   for (let i = len - 2; i >= 0; i--) {
+//     newArr.unshift(arr[i]);
+//     newArr.push(arr[i]);
+//   }
+//   let Arr = newArr.map((it) => {
+//     return `${it[0].toUpperCase()}${it.slice(1)}`;
+//   })
+//   return Arr.join(' ');
+// }
+// console.log(func("you got a message"));
+// 实现一个方法 接受参数  区间数组 和长度n
+// [1, 2, 3, 4]  n
+// [1, 5] 2   1 , 2 ,1,3
+// function func(arr, n) {
+//   function getRandom(left, right) {
+//     return Math.floor(Math.random() * (right - left + 1)) + left;
+//   }
+//   let result = [];
+//   while (result.length < n) {
+//     let value = getRandom(arr[0], arr[1]);
+//     if (result.indexOf(value) === -1) {
+//       result.push(value);
+//     }
+//   }
+//   return result;
+// }
+// console.log(func([1, 5], 5))
 // function solution(w, timeArr) {
 //   // 在这⾥写代码
 //   let result = ''

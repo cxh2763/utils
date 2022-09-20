@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="#app">
+  </div>
+  <script>
+
+    obj = {
+      a: 1,
+      b: 2,
+      c: {
+        d: 4,
+        e: 5,
+      }
+    }
+
+    function observe(obj, render) {
+      const ob = {};
+      for (let key in obj) {
+        let value = obj[key];
+        Object.defineProperty(ob, key, {
+          enumerable: true,
+          get: function () {
+            console.log('get执行了')
+            if (typeof obj[key] === 'object') {
+              return observe(obj[key], render);
+            } else {
+              return value;
+            }
+          },
+          set: function (val) {
+            console.log('set执行了')
+            value = val;
+            render(ob);
+          }
+        })
+      }
+      return ob;
+    }
+    function render(obj) {
+      console.log('render执行了')
+      let ob = observe(obj, render);
+      const container = document.getElementById('#app');
+      function getContainer(obj) {
+        let innerHtml = '';
+        for (let key in obj) {
+          if (typeof obj[key] === 'object') {
+            innerHtml += getContainer(obj[key]);
+          } else {
+            innerHtml += ` <p><span>${key}：</span><span>${obj[key]}</span></p>`
+          }
+        }
+        return innerHtml;
+      }
+      let content = getContainer(obj);
+      container.innerHTML = content;
+    }
+    ob = observe(obj, render);
+    render(ob);
+
+  </script>
+</body>
+
+</html>

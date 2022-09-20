@@ -1,3 +1,73 @@
+// function isTrue(arr, k) {
+//   let obj = {};
+//   for (const it of arr) {
+//     if (!obj[it]) {
+//       obj[it] = 1;
+//     } else {
+//       obj[it]++;
+//     }
+//   }
+//   let arr1 = Object.values(obj);
+//   for (const it of arr1) {
+//     if (it >= k) {
+//       return true;
+//     }
+//   }
+//   return false;
+// }
+
+// function func(n, k, arr) {
+//   let result = 0;
+//   for (let i = 0; i <= n; i++) {
+//     let j = i + k;
+//     while (j <= n) {
+//       let value = arr.slice(i, j);
+//       if (isTrue(value, k)) {
+//         result++;
+//       }
+//       j++;
+//     }
+//   }
+//   console.log(result);
+//   return result;
+// }
+
+// func(6, 2, [1, 2, 1, 3, 2, 3]);
+// function func(n, k, arr) {
+//   let dp = new Array(n).fill(Number.MAX_VALUE);
+//   dp[0] = 0;
+//   for (let i = 0; i < n; i++) {
+//     let j = 1;
+//     while (j <= k) {
+//       if (arr[i + j] > arr[i]) {
+//         let value = dp[i] + arr[i + j] - arr[i];
+//         dp[i + j] = Math.min(dp[i + j], value);
+//       } else {
+//         dp[i + j] = Math.min(dp[i + j], dp[i]);
+//       }
+//       j++;
+//     }
+//   }
+//   console.log(dp[n - 1]);
+// }
+// func(5, 2, [1, 5, 3, 4, 2]);
+
+// function func(arr, score) {
+//   let min = Number.MAX_VALUE;
+//   for (const itar of arr) {
+//     let err = 0;
+//     for (let i = 0; i < itar.length; i++) {
+//       if (itar[i] <= score) {
+//         err++;
+//       }
+//     }
+//     min = Math.min(min, itar.length - err);
+//   }
+//   console.log(min);
+//   return min;
+// }
+// func([[4], [7, 7], [6, 6], [8]], 2);
+
 // function convertToEnglish(num) {
 //   // write code here
 //   let obj = {
