@@ -1,3 +1,244 @@
+console.log(1);
+Promise.resolve().then(() => {
+  console.log(2);
+
+})
+console.log(3);
+
+
+// function _parse(graph) {
+//   return graph.trim().split('|').map((edgeStr) => {
+//     const [form, to, weight] = edgeStr.split(" ").map(
+//       (str) => str.trim()
+//     );
+//     return {
+//       form,
+//       to,
+//       weight: parseFloat(weight),
+//     }
+//   })
+// }
+// const graph = _parse('A B 1|B A 2');
+// // console.log(graph);
+// function func(graph) {
+//   let site = [];
+//   for (const item of graph) {
+//     if (!site.includes(item.form)) {
+//       site.push(item.form);
+//     }
+//   }
+//   // console.log(site);
+//   let isTo = [];
+//   function getPath(result, key, point, dis) {
+//     if (isTo.length === site.length) {
+//       result[key] = Math.min(result[key], dis);
+//     }
+//     for (let i = 0; i < graph.length; i++) {
+//       if (graph[i].form === point && !isTo.includes(graph[i].to)) {
+//         isTo.push(graph[i].to);
+//         dis = dis + graph[i].weight;
+//         getPath(result, key, graph[i].to, dis);
+//         isTo.pop();
+//         dis = dis - graph[i].weight;
+//       }
+//     }
+//   }
+//   let result = {};
+//   for (const item of site) {
+//     result[item] = Number.MAX_VALUE;
+//     isTo.push(item);
+//     getPath(result, item, item, 0);
+//     isTo = [];
+//   }
+//   let res = '';
+//   let min = Number.MAX_VALUE;
+//   for (const key in result) {
+//     if (result[key] < min) {
+//       min = result[key];
+//       res = key;
+//     }
+//   }
+//   console.log(res);
+// }
+// func(graph);
+
+
+// function func(arr, k) {
+//   let result = 0;
+//   let value;
+//   while (true) {
+//     if (arr[0] > arr[1]) {
+//       result++;
+//       if (result === k) {
+//         return arr[0];
+//       }
+//       value = arr[1];
+//       arr.splice(1, 1);
+//       arr.push(value);
+//     } else {
+//       result = 1;
+//       value = arr[0];
+//       arr[0] = arr[1];
+//       arr.splice(1, 1);
+//       arr.push(value);
+//     }
+//   }
+// }
+// console.log(func([1, 11, 22, 33, 44, 55, 66, 77, 88, 99], 100))
+
+//反转字符串
+// function func(str, start, end) {
+//   let left = 0;
+//   let right = str.length - 1;
+//   if (!str.includes(start) && !str.includes(end)) {
+//     return str.split('').reverse().join('');
+//   }
+//   if (!str.includes(start)) {
+//     while (str[right] !== end) {
+//       right--;
+//     }
+//     return str.substring(0, right + 1).split('').reverse().join('') + str.substring(right + 1);
+//   }
+//   if (!str.includes(end)) {
+//     while (str[left] !== start) {
+//       left++;
+//     }
+//     return str.substring(0, left) + str.substring(left).split('').reverse().join('');
+//   }
+
+//   while (left < right) {
+//     if (str[left] !== start) {
+//       left++;
+//     }
+//     if (str[right] !== end) {
+//       right--;
+//     }
+//     if (str[left] === start && str[right] === end) {
+//       let head = str.substring(0, left);
+//       let tail = str.substring(right + 1);
+//       return head + str.substring(left, right + 1).split('').reverse().join('') + tail;
+//     }
+//   }
+// }
+
+// console.log(func('abcdefg', 'b', 'f'));
+
+// function foo(n) {
+//   if (n < 2)
+//     return n;
+//   return foo(n - 1) + foo(n - 3)
+// }
+// console.log(foo(7));
+//青蛙过河
+// function canCross(stones) {
+//   let stonesLen = stones.length;
+//   let deadDot = {};
+//   function skip(n, k) {
+//     if (n >= stonesLen - 1) {
+//       return true;
+//     }
+//     let nk = n + '*' + k;
+//     if (deadDot[nk]) {
+//       return false;
+//     }
+//     for (let i = n + 1; i < stonesLen; i++) {
+//       let step = stones[i] - stones[n];
+//       if (step > k + 1) {
+//         break;
+//       } else if (step < k - 1) {
+//         continue;
+//       } else {
+//         if (skip(i, step)) {
+//           return true;
+//         }
+//       }
+//     }
+//     deadDot[nk] = true;
+//     return false;
+//   }
+//   return skip(0, 0);
+// }
+
+
+// function canCross(stones) {
+//   let n = stones.length;
+//   let dp = new Array(n).fill(0).map(() => {
+//     return new Array(n).fill(false);
+//   })
+//   dp[0][0] = true;
+//   for (let i = 1; i < n; i++) {
+//     for (let j = i - 1; j >= 0; j--) {
+//       let k = stones[i] - stones[j];
+//       if (k > j + 1)
+//         break;
+//       dp[i][k] = dp[j][k - 1] || dp[j][k] || dp[j][k + 1];
+//       if (i === n - 1 && dp[i][k]) {
+//         return true;
+//       }
+//     }
+//     return false;
+//   }
+// }
+// function func(str) {
+//   const map = {};
+//   for (let i = 0; i < str.length; i++) {
+//     if (!map[str[i]]) {
+//       map[str[i]] = 1;
+//     } else {
+//       map[str[i]]++;
+//     }
+//   }
+//   let result = 0;
+//   let flag = 0;
+//   let values = Object.values(map);
+//   for (const it of values) {
+//     if (it % 2 !== 0) {
+//       flag = 1;
+//       result += (it - 1);
+//     } else {
+//       result += it;
+//     }
+//   }
+//   result = result + flag;
+//   console.log(result);
+//   return result;
+// }
+// func('Aaaaaa');
+// function func(n) {
+//   let dp = new Array(n + 1).fill(0);
+//   dp[1] = 1;
+//   for (let i = 2; i <= n; i++) {
+//     dp[i] = dp[i - 1] * i;
+//   }
+//   let result = dp[n].toString().split('0').length - 1;
+//   console.log(result);
+// }
+// func(15);
+
+
+// var balancedString = function (s) {
+//   const n = s.length;
+//   const avg = n / 4;
+//   const map = { Q: 0, W: 0, E: 0, R: 0 };
+//   for (const c of s) {
+//     map[c]++;
+//   }
+//   if (map.Q === avg && map.W === avg && map.E === avg && map.R === avg) {
+//     return 0;
+//   }
+//   let minLength = n, left = 0, right = 0;
+//   while (right < n) {
+//     map[s[right]]--;
+//     while (left <= right && map.Q <= avg && map.W <= avg && map.E <= avg && map.R <= avg) {
+//       minLength = Math.min(minLength, right - left + 1);
+//       map[s[left++]]++
+//     }
+//     right++;
+//   }
+
+//   return minLength
+// };
+// console.log(balancedString("QQQWWEEE"));
 // function isTrue(arr, k) {
 //   let obj = {};
 //   for (const it of arr) {
