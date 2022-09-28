@@ -1,10 +1,36 @@
-console.log(1);
-Promise.resolve().then(() => {
-  console.log(2);
+// let a = setTimeout(() => {
+//   console.log(1);
+// }, 0)
+// Promise.resolve(2).then(b => {
+//   console.log(b);
+//   clearTimeout(a);
+// })
 
-})
-console.log(3);
+// function func(n, m, arr) {
+//   arr.sort((a, b) => {
+//     return a - b;
+//   })
+//   let two = n - m;
+//   let tarr = arr.slice(0, two * 2);
+//   let max = 0;
+//   let left = 0;
+//   let right = tarr.length - 1;
+//   while (left < right) {
+//     max = Math.max(tarr[left] + tarr[right], max);
+//     left++;
+//     right--;
+//   }
+//   console.log(max);
+// }
+// func(5, 3, [4, 1, 8, 2, 6]);
 
+
+// console.log(1);
+// Promise.resolve().then(() => {
+//   console.log(2);
+
+// })
+// console.log(3);
 
 // function _parse(graph) {
 //   return graph.trim().split('|').map((edgeStr) => {

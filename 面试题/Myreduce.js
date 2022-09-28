@@ -25,3 +25,26 @@ console.log(arr.MyReduce((pre, cur, index) => {
   console.log(index, pre, cur)
   return pre + cur
 }))
+
+
+
+function* gen() {
+  let n = 1;
+  let v = yield n + 22;           //第一个  yield
+  console.log('aa-----', v);
+  v = yield 123;                  //第二个  yield
+  console.log('bb-----', v);
+  v = yield 456;                  //第三个  yield
+  console.log('cc-----', v);
+  v = yield 789;                  //第四个  yield
+  console.log('dd-----', v);
+}
+
+//遍历器 g
+let g = gen();
+
+console.log(g.next());                         //  第一行
+console.log(g.next('111'));                    //  第二行
+console.log(g.next(null));                     //  第三行
+console.log(g.next());                         //  第四行
+console.log(g.next('aa'));                     //  第五行
