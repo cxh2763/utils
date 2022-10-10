@@ -1,3 +1,15 @@
+// function func1(params) {
+//   let cache = {};
+//   return function func2() {
+//     return;
+//     if (cache[params]) {
+//       return cache[params];
+//     }
+//     cache[params] = 1;
+//     console.log(11111);
+//   }
+// }
+// func1('aaa')();
 // let a = setTimeout(() => {
 //   console.log(1);
 // }, 0)
