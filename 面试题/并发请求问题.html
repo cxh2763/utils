@@ -11,152 +11,60 @@
 
 <body>
   <script>
-    Promise.Myall = function (params) {
-      return new Promise((resolve, reject) => {
-        try {
-          let result = [];
-          let Count = 0;
-          let fulfilledCount = 0;
-          for (const it of params) {
-            let index = Count; //形成块级作用域
+    const configOptions = {
+      baseURL: 'https://www.zhihu.com/commercial_api',
+      timeout: 3000,
+    }
+    const instance = axios.create(configOptions);
+
+
+    function multiRequest(urls = [], maxNum) {
+      const result = [];
+      return new Promise((reslove, reject) => {
+        if (urls.length === 0) {
+          reslove(result);
+          return;
+        }
+        let index = 0;
+        let Count = 0; //当前请求的完成数量
+        function request() {
+          if (index === urls.length) {
+            console.log('结束')//后面再来的请求都不执行了
+            return;
+          }
+          const i = index;
+          const url = urls[index];
+          index++;
+          instance.get(url).then((data) => {
+            result[i] = data;
+            console.log(result);//为了效果看的清楚
+          }).catch((err) => {
+            result[i] = err;
+          }).finally(() => {
             Count++;
-            Promise.resolve(it).then((res) => {
-              fulfilledCount++;
-              result[index] = res;
-              //这里面的代码已经是异步的，如果没有reject，Count应该等于Promise数量
-              if (fulfilledCount === Count) {
-                resolve(result);
-              }
-            }, reject)
-          }
-          if (Count === 0) {
-            resolve(result);
-          }
-        } catch (err) {
-          console.error(err);
+            if (Count === urls.length) {
+              console.log('over');//所有的请求结果都已经拿到了
+              reslove(result);
+            }
+            request();
+          });
+        }
+
+        const minCount = Math.min(maxNum, urls.length);
+        for (let i = 0; i < minCount; i++) {
+          request();
         }
       })
     }
-    let arr = [1, new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(2)
-      }, 500)
-    }), new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(3)
-      }, 200)
-    })]
-    Promise.Myall(arr).then((res) => {
-      console.log(res);
-    }, (rej) => {
-      console.log(rej);
-    })
-    // function multiRequest(urls = [], maxNum) {
-    //   // 请求总数量
-    //   const len = urls.length;
-    //   // 根据请求数量创建一个数组来保存请求的结果
-    //   const result = new Array(len).fill(false);
-    //   // 当前完成的数量
-    //   let count = 0;
 
-    //   return new Promise((resolve, reject) => {
-    //     // 请求maxNum个
-    //     while (count < maxNum) {
-    //       next();
-    //     }
-    //     function next() {
-    //       let current = count++;
-    //       // 处理边界条件
-    //       if (current >= len) {
-    //         // 请求全部完成就将promise置为成功状态, 然后将result作为promise值返回
-    //         !result.includes(false) && resolve(result);
-    //         return;
-    //       }
-    //       const url = urls[current];
-    //       console.log(`开始 ${current}`, new Date().toLocaleString());
-    //       fetch(url)
-    //         .then((res) => {
-    //           // 保存请求结果
-    //           result[current] = { [`第${current}个`]: res };
-    //           console.log(`完成 ${current}`, new Date().toLocaleString());
-    //           // 请求没有全部完成, 就递归
-    //           if (current < len) {
-    //             next();
-    //           }
-    //         })
-    //         .catch((err) => {
-    //           console.log(`结束 ${current}`, new Date().toLocaleString());
-    //           result[current] = err;
-    //           // 请求没有全部完成, 就递归
-    //           if (current < len) {
-    //             next();
-    //           }
-    //         });
-    //     }
-    //   });
-    // }
-    // let arr = [];
-    // for (let i = 0; i < 20; i++) {
-    //   arr.push('https://www.zhihu.com/commercial_api/banners_v3/home_up');
-    // }
-    // let result = multiRequest(arr, 10).then((res) => console.log(res));
-    // const configOptions = {
-    //   baseURL: 'https://www.zhihu.com/commercial_api',
-    //   timeout: 3000,
-    // }
-    // const instance = axios.create(configOptions);
-    // let cache = new Map();
-    // instance.interceptors.request.use((config) => {
-    //   console.log(config)
-    //   if (!cache.has(config.baseURL)) {
-    //     cache.set(config.baseURL, 1)
-    //     return config;
-    //   } else {
-    //     let index = cache.get(config.baseURL);
-    //     cache.set(config.baseURL, ++index);
-    //     config['cancelToken'] = new axios.CancelToken(function (c) {
-    //       cancel = c;
-    //       cancel('强制取消了请求');
-    //     })
-    //     return config;
-    //   }
-    // }, error => {
-    //   return Promise.reject(error)
-    // })
-    // instance.interceptors.response.use((res) => {
-    //   if (cache.has(res.config.baseURL)) {
-    //     let result = []
-    //     for (let i = 0; i < cache.get(res.config.baseURL); i++) {
-    //       result.push(res);
-    //     }
-    //     return result;
-    //   } else {
-    //     return res;
-    //   }
-    // }, error => {
-    //   return Promise.reject(error)
-    // })
-    // let resp1 = instance.get('/banners_v3/home_up')
-    // let resp2 = instance.get('/banners_v3/home_up')
-    // let resp3 = instance.get('/banners_v3/home_up')
-    // let arr = [resp1, resp2, resp3]
-    // arr.forEach(element => {
-    //   element.then((res) => {
-    //     console.log(JSON.parse(res[0].data.banner))
-    //   })
-    // });
 
-    // Promise.race([resp1, resp2, resp3]).then((res) => {
-    //   console.log(JSON.parse(res.data.banner))
-    // })
 
-    // Promise.myRace = function (parms) {
-    //   return new Promise((resolve, reject) => {
-    //     for (const it of parms) {
-    //       Promise.resolve(it).then(resolve, reject)
-    //     }
-    //   })
-    // }
+    let arr = [];
+    for (let i = 0; i < 20; i++) {
+      arr.push('/banners_v3/home_up');
+    }
+    let result = multiRequest(arr, 10).then(res => console.log(res))
+
   </script>
 </body>
 
